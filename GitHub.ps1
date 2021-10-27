@@ -15,6 +15,7 @@
             -Owner 'Microsoft'
             -Repo 'CodeCamp '
             -Author 'john.smith@gmail.com'
+            -Date ([DateTime]::Now.AddDays(-1))
 #>
 param(
     [string]$Login, [string]$Token, 
