@@ -13,7 +13,7 @@
             -Login 'test'
             -Token '***'
             -Owner 'Microsoft'
-            -Repo 'CodeCamp '
+            -Repo 'CodeCamp'
             -Author 'john.smith@gmail.com'
             -Date ([DateTime]::Now.AddDays(-1))
 #>
