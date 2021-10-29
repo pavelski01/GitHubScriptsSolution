@@ -40,8 +40,6 @@ $branchesJson.ForEach({
         })
     }
 })
-foreach ($kvp in $dict.GetEnumerator()) {
-    $key = $kvp.Key
-    $value = $kvp.Value -join '; '
-    Write-Host "$($key) - $($value)"
+$dict.GetEnumerator() | ForEach-Object { 
+    Write-Host "$($_.Key) - $(($_.Value | Join-String -Separator '; ')))" 
 }
