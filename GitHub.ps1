@@ -41,5 +41,5 @@ $branchesJson.ForEach({
     }
 })
 $dict.GetEnumerator() | ForEach-Object { 
-    Write-Host "$($_.Key) - $(($_.Value | Join-String -Separator '; ')))" 
+    Write-Host "$($_.Key) - $($_.Value | Join-String -Separator '; ')" 
 }
