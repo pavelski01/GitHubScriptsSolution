@@ -24,13 +24,10 @@ param(
     [string]$Author="pavelski01@gmail.com", [DateTime]$Date=[DateTime]::Now
 )
 $url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches"
-$since = Get-Date -Date $Date -Format "yyyy-MM-ddT00:00:00zzz"
 $branchesJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
 $dict = [dictionary[string, list[string]]]::new()
 $branchesJson.ForEach({
-    $commit = $_.commit
-    $sha = $commit.sha
-    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($sha)&author=$($Author)&since=$($since)"
+    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($_.commit.sha)&author=$($Author)&since=$(Get-Date -Date $Date -Format 'yyyy-MM-ddT00:00:00zzz')"
     $commitsJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
     if ($commitsJson -eq $null) { return }
     $key = $_.name
