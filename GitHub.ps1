@@ -25,16 +25,22 @@ param(
 $url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches"
 $since = Get-Date -Date $Date -Format "yyyy-MM-ddT00:00:00zzz"
 $branchesJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
+$dict = [system.collections.generic.dictionary[string, system.collections.generic.list[string]]]::new()
 $branchesJson.ForEach({
     $commit = $_.commit
     $sha = $commit.sha
     $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($sha)&author=$($Author)&since=$($since)"
     $commitsJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
     if ($commitsJson -ne $null) {
-        Write-Host $_.name
-        Write-Host ("-" * 13)
+        $key = $_.name
+        $dict.Add($key, [system.collections.generic.list[string]]::new())
         $commitsJson.ForEach({
-            Write-Host $_.commit.message
+            $dict[$key].Add($_.commit.message)            
         })
     }
 })
+foreach ($kvp in $dict.GetEnumerator()) {
+    $key = $kvp.Key
+    $value = $kvp.Value -join '; '
+    Write-Host "$($key) - $($value)"
+}
