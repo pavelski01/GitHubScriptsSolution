@@ -32,13 +32,12 @@ $branchesJson.ForEach({
     $sha = $commit.sha
     $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($sha)&author=$($Author)&since=$($since)"
     $commitsJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
-    if ($commitsJson -ne $null) {
-        $key = $_.name
-        $dict.Add($key, [list[string]]::new())
-        $commitsJson.ForEach({
-            $dict[$key].Add($_.commit.message)            
-        })
-    }
+    if ($commitsJson -eq $null) { return }
+    $key = $_.name
+    $dict.Add($key, [list[string]]::new())
+    $commitsJson.ForEach({
+        $dict[$key].Add($_.commit.message)            
+    })
 })
 $dict.GetEnumerator() | ForEach-Object { 
     Write-Host "$($_.Key) - $($_.Value | Join-String -Separator '; ')" 
