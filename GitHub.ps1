@@ -1,3 +1,4 @@
+using namespace "System.Collections.Generic"
 <# 
     Usage: 
         .\GitHub.ps1 
@@ -25,7 +26,7 @@ param(
 $url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches"
 $since = Get-Date -Date $Date -Format "yyyy-MM-ddT00:00:00zzz"
 $branchesJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
-$dict = [system.collections.generic.dictionary[string, system.collections.generic.list[string]]]::new()
+$dict = [dictionary[string, list[string]]]::new()
 $branchesJson.ForEach({
     $commit = $_.commit
     $sha = $commit.sha
@@ -33,7 +34,7 @@ $branchesJson.ForEach({
     $commitsJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
     if ($commitsJson -ne $null) {
         $key = $_.name
-        $dict.Add($key, [system.collections.generic.list[string]]::new())
+        $dict.Add($key, [list[string]]::new())
         $commitsJson.ForEach({
             $dict[$key].Add($_.commit.message)            
         })
