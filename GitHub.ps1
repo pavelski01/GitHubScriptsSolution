@@ -37,5 +37,6 @@ $branchesJson.ForEach({
     })
 })
 $dict.GetEnumerator() | ForEach-Object { 
+    $_.Value.Reverse()
     Write-Host "$($_.Key) - $($_.Value -join '; ')" 
 }
