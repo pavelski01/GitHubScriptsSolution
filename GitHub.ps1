@@ -33,7 +33,12 @@ $branchesJson.ForEach({
     $key = $_.name
     $dict.Add($key, [list[string]]::new())
     $commitsJson.ForEach({
-        $dict[$key].Add($_.commit.message)            
+        $message = $_.commit.message
+        $splitted = $message -split "`n" 
+        if ($splitted.Length -eq 3) {
+            $message = "$($splitted[0]) ($($splitted[2]))"
+        }
+        $dict[$key].Add($message)
     })
 })
 $dict.GetEnumerator() | ForEach-Object { 
