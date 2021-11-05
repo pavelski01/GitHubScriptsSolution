@@ -34,9 +34,10 @@ $branchesJson.ForEach({
     $dict.Add($key, [list[string]]::new())
     $commitsJson.ForEach({
         $message = $_.commit.message
-        $splitted = $message -split "`n" 
-        if ($splitted.Length -eq 3) {
-            $message = "$($splitted[0]) ($($splitted[2]))"
+        if ($message -like "Merge branch*") { return }
+        $splitted = $message.Split("`n", [System.StringSplitOptions]::RemoveEmptyEntries) 
+        if ($splitted.Length -eq 2) {
+            $message = "$($splitted[0]) ($($splitted[1]))"
         }
         $dict[$key].Add($message)
     })
