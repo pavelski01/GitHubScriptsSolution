@@ -1,8 +1,8 @@
 # GitHubScriptsSolution
 
 - Usage:
-  .\GitHub.ps1 
-      -Login '<GitHub login>'
+#^ .\GitHub.ps1 
+#^#^ -Login '<GitHub login>'
       -Token '<GitHub token>'
       -Owner '<owner>'
       -Repo '<repository>'
