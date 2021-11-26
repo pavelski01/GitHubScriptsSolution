@@ -1,8 +1,8 @@
 # GitHubScriptsSolution
 
 - Usage:
-#^ .\GitHub.ps1 
-#^#^ -Login '<GitHub login>'
+## .\GitHub.ps1 
+      -Login '<GitHub login>'
       -Token '<GitHub token>'
       -Owner '<owner>'
       -Repo '<repository>'
@@ -10,7 +10,7 @@
       -Date '<date from>'
   
 - Example:<br />
-  .\GitHub.ps1 
+## .\GitHub.ps1 
       -Login 'test'
       -Token '***'
       -Owner 'Microsoft'
