@@ -2,11 +2,11 @@
 
 - Usage: .\GitHub.ps1 \
       -Login '\<GitHub login>' \
-      -Token `'<GitHub token>'` \
-      -Owner `'<owner>'` \
-      -Repo `'<repository>'` \
-      -Author `'<commit author>'` \
-      -Date `'<date from>'`
+      -Token '\<GitHub token>' \
+      -Owner '\<owner>' \
+      -Repo '\<repository>' \
+      -Author '\<commit author>' \
+      -Date '\<date from>'
   
 - Example: .\GitHub.ps1 \
       -Login 'test' \
