@@ -6,7 +6,7 @@
       -Owner '`<owner>`' \
       -Repo '`<repository>`' \
       -Author '`<commit author>`' \
-      -Date '`<date from>`' \
+      -Date '`<date from>`'
   
 - Example: .\GitHub.ps1 \
       -Login 'test' \
@@ -14,4 +14,4 @@
       -Owner 'Microsoft' \
       -Repo 'CodeCamp' \
       -Author '`john.smith@gmail.com`' \
-      -Date ([DateTime]::Today.AddDays(-1)) \
+      -Date ([DateTime]::Today.AddDays(-1))
