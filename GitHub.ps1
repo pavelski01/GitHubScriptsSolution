@@ -21,14 +21,15 @@ using namespace "System.Collections.Generic"
 param(
     [string]$Login, [string]$Token, 
     [string]$Owner, [string]$Repo, 
-    [string]$Author="pavelski01@gmail.com", [DateTime]$Date=[DateTime]::Now
+    [string]$Author="pavelski01@gmail.com", [DateTime]$Date=[DateTime]::Today
 )
 $since = Get-Date -Date $Date -Format 'yyyy-MM-ddT00:00:00Z'
+$before = $Date.AddHours(-24).AddMinutes(-1)
 $url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches"
 $branchesJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
 $dict = [dictionary[string, list[string]]]::new()
 $branchesJson.ForEach({
-    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($_.commit.sha)&author=$($Author)&since=$($since)"
+    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($_.commit.sha)&author=$($Author)&since=$($since)&before=$($before)"
     $commitsJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token | Foreach-Object {
         $hash = [ordered]@{}
         $_.PsObject.Properties | Foreach-Object { 
