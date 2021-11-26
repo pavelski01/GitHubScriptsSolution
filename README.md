@@ -1,7 +1,7 @@
 # GitHubScriptsSolution
 
 - Usage: .\GitHub.ps1 \
-      -Login '`<GitHub login>' __
+      -Login '`<GitHub login>`' \
       -Token '`<GitHub token`>' \
       -Owner '`<owner`>' \
       -Repo '`<repository`>' \
