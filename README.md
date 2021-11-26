@@ -1,6 +1,6 @@
 # GitHubScriptsSolution
 
-Usage: 
+- Usage:
   .\GitHub.ps1 
       -Login '<GitHub login>'
       -Token '<GitHub token>'
@@ -9,7 +9,7 @@ Usage:
       -Author '<commit author>'
       -Date '<date from>'
   
-Example:
+- Example:<br />
   .\GitHub.ps1 
       -Login 'test'
       -Token '***'
