@@ -27,8 +27,9 @@ $since = Get-Date -Date $Date -Format 'yyyy-MM-ddT00:00:00Z'
 $url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches"
 $branchesJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
 $dict = [dictionary[string, list[string]]]::new()
+$page = 1
 $branchesJson.ForEach({
-    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($_.commit.sha)&author=$($Author)&since=$($since)&sort=pushed&per_page=100"
+    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($_.commit.sha)&author=$($Author)&since=$($since)&sort=pushed&per_page=100&page$($page)"
     $commitsJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token | Foreach-Object {
         $hash = [ordered]@{}
         $_.PsObject.Properties | Foreach-Object { 
@@ -50,6 +51,8 @@ $branchesJson.ForEach({
         }
         $dict[$key].Add($message)
     })
+    $page++
+    if ($commitsJson.Length -ge 100) { return }
 })
 $dict.GetEnumerator() | ForEach-Object { 
     $_.Value.Reverse()
