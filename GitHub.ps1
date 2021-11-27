@@ -23,12 +23,12 @@ param(
     [string]$Owner, [string]$Repo, 
     [string]$Author="pavelski01@gmail.com", [DateTime]$Date=[DateTime]::Today
 )
-$since = Get-Date -Date $Date -Format 'yyyy-MM-ddThh:mm:00Z'
+$since = Get-Date -Date $Date -Format 'yyyy-MM-ddT00:00:00Z'
 $url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches"
 $branchesJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
 $dict = [dictionary[string, list[string]]]::new()
 $branchesJson.ForEach({
-    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($_.commit.sha)&author=$($Author)&since=$($since)"
+    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($_.commit.sha)&author=$($Author)&since=$($since)&sort=pushed&per_page=100"
     $commitsJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token | Foreach-Object {
         $hash = [ordered]@{}
         $_.PsObject.Properties | Foreach-Object { 
