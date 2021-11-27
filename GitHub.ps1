@@ -23,13 +23,12 @@ param(
     [string]$Owner, [string]$Repo, 
     [string]$Author="pavelski01@gmail.com", [DateTime]$Date=[DateTime]::Today
 )
-$since = Get-Date -Date $Date -Format 'yyyy-MM-ddT00:00:00Z'
-$before = $Date.AddHours(-24).AddMinutes(-1)
+$since = Get-Date -Date $Date -Format 'yyyy-MM-ddThh:mm:00Z'
 $url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches"
 $branchesJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
 $dict = [dictionary[string, list[string]]]::new()
 $branchesJson.ForEach({
-    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($_.commit.sha)&author=$($Author)&since=$($since)&before=$($before)"
+    $url = "https://api.github.com/repos/$($Owner)/$($Repo)/commits?sha=$($_.commit.sha)&author=$($Author)&since=$($since)"
     $commitsJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token | Foreach-Object {
         $hash = [ordered]@{}
         $_.PsObject.Properties | Foreach-Object { 
@@ -41,6 +40,8 @@ $branchesJson.ForEach({
     $key = $_.name
     $dict.Add($key, [list[string]]::new())
     $commitsJson.ForEach({
+        $commitDate = $_.commit.committer.date
+        if ($commitDate.Date -gt $Date.Date) { return }
         $message = $_.commit.message
         if ($message -like "Merge branch*") { return }
         $splitted = $message.Split("`n", [System.StringSplitOptions]::RemoveEmptyEntries) 
