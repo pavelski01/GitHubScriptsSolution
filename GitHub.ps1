@@ -24,7 +24,7 @@ param(
     [string]$Author="pavelski01@gmail.com", [DateTime]$Date=[DateTime]::Today
 )
 $since = Get-Date -Date $Date -Format 'yyyy-MM-ddT00:00:00Z'
-$url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches"
+$url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches?per_page=100"
 $branchesJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
 $dict = [dictionary[string, list[string]]]::new()
 $page = 1
