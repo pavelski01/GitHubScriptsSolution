@@ -23,7 +23,7 @@ param(
     [string]$Owner, [string]$Repo, 
     [string]$Author="pavelski01@gmail.com", [DateTime]$Date=[DateTime]::Today
 )
-$since = Get-Date -Date $Date -Format 'yyyy-MM-ddT00:00:00Z'
+$since = Get-Date -Date $Date.Date -Format 'yyyy-MM-ddT00:00:00Z'
 $url = "https://api.github.com/repos/$($Owner)/$($Repo)/branches?per_page=100"
 $branchesJson = &".\WebClient.ps1" -Url $url -User $Login -Token $Token
 $dict = [dictionary[string, list[string]]]::new()
@@ -41,7 +41,7 @@ $branchesJson.ForEach({
     $key = $_.name
     $dict.Add($key, [list[string]]::new())
     $commitsJson.ForEach({
-        $commitDate = $_.commit.committer.date
+        $commitDate = [DateTime]$_.commit.committer.date
         if ($commitDate.Date -gt $Date.Date) { return }
         $message = $_.commit.message
         if ($message -like "Merge branch*") { return }
