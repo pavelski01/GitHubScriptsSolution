@@ -54,7 +54,8 @@ $branchesJson.ForEach({
     $page++
     if ($commitsJson.Length -ge 100) { return }
 })
-$dict.GetEnumerator() | ForEach-Object { 
+$dict.GetEnumerator() | ForEach-Object {
+    if (([list[string]]$_.Value).Count -le 0) { return }
     $_.Value.Reverse()
     Write-Host "$($_.Key) - $($_.Value -join '; ')`n`r"
 }
