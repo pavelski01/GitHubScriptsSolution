@@ -1,5 +1,5 @@
-param([string]$Url, [string]$Login, [string]$Token)
-$pair = "$($Login):$($Token)"
+param([string]$Url, [string]$User, [string]$Token)
+$pair = "$($User):$($Token)"
 $encodedCreds = [System.Convert]::ToBase64String([System.Text.Encoding]::ASCII.GetBytes($pair))
 $basicAuth = "Basic $encodedCreds"
 $Headers = @{
